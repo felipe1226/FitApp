@@ -15,8 +15,6 @@ import com.android.volley.toolbox.Volley;
 import com.app.fitness.GlobalState;
 import com.app.fitness.Modelo.Persona.DatosPersona;
 import com.app.fitness.R;
-import com.app.fitness.Vista.Principal.Main;
-import com.app.fitness.Vista.Principal.Navigation;
 
 import androidx.appcompat.app.AppCompatActivity;
 

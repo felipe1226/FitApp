@@ -1,8 +1,6 @@
 package com.app.fitness.Vista.Entreno;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.akaita.android.morphview.MorphView;
-import com.app.fitness.R;
+import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjercicios;
 
 import java.util.ArrayList;
 
@@ -31,6 +28,8 @@ public class AdapterEjercicios extends RecyclerView.Adapter<AdapterEjercicios.My
 
     int indice = -1;
     boolean entrenando;
+
+    int indiceAnimacion = 0;
 
     public AdapterEjercicios(Entrenar entrenar, Context context, ArrayList<ListaEjercicios> ejercicios) {
         this.entrenar = entrenar;
@@ -57,54 +56,83 @@ public class AdapterEjercicios extends RecyclerView.Adapter<AdapterEjercicios.My
         notifyItemChanged(indice);
     }
 
+    private void animacion(View view) {
+        view.animate().cancel();
+        view.setTranslationY(100);
+        view.setAlpha(0);
+        view.animate().alpha(1.0f).translationY(0).setDuration(300).setStartDelay(indiceAnimacion * 100);
+        indiceAnimacion ++;
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(layout.item_ejercicio_inicio, parent, false);
         final AdapterEjercicios.MyViewHolder holder = new AdapterEjercicios.MyViewHolder(v);
 
-        animate(v, holder.getAdapterPosition());
+        if(indiceAnimacion < ejercicios.size()){ animacion(holder.itemView); }
 
-        holder.item_ejercicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!entrenando && ejercicios.get(holder.getAdapterPosition()).getEstado() != 2){
-                    if(ejercicios.get(holder.getAdapterPosition()).getEstado() == 0){
-                        indice = holder.getAdapterPosition();
-                        ejercicios.get(indice).setEstado(1);
-                        entrenar.btnIniEjercicio.setEnabled(true);
-                        notifyDataSetChanged();
+        if(entrenar != null){
+            holder.item_ejercicio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int posicion = holder.getAdapterPosition();
+                    if(!entrenando && ejercicios.get(posicion).getEstado() != 2){
+                        if(ejercicios.get(posicion).getEstado() == 0){
+                            indice = posicion;
+                            ejercicios.get(indice).setEstado(1);
+                            entrenar.btnIniEjercicio.setEnabled(true);
+                            notifyDataSetChanged();
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
 
         holder.ibShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(holder.layout_info.getVisibility() == View.GONE){
-                    holder.layout_info.setVisibility(View.VISIBLE);
-                    holder.ibShow.setImageResource(drawable.ic_expand_less);
-                }
-                else{
-                    holder.layout_info.setVisibility(View.GONE);
-                    holder.ibShow.setImageResource(drawable.ic_expand);
-                }
+                int posicion = holder.getAdapterPosition();
+                if(ejercicios.get(posicion).isInfo()){ ejercicios.get(posicion).setInfo(false); }
+                else{ ejercicios.get(posicion).setInfo(true); }
+                notifyDataSetChanged();
             }
         });
-
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
+        if (ejercicios.get(position).getEstado() == 2){ holder.item_ejercicio.setBackgroundDrawable(ContextCompat.getDrawable(context, drawable.item_ejercicio_entreno_fin)); }
+        else{
+            if (indice == position){ holder.item_ejercicio.setBackgroundDrawable(ContextCompat.getDrawable(context, drawable.item_ejercicio_entreno_select)); }
+            else{
+                ejercicios.get(position).setEstado(0);
+                holder.item_ejercicio.setBackgroundDrawable(ContextCompat.getDrawable(context, drawable.item_ejercicio_entreno));
+            }
+        }
+
+        if(ejercicios.get(position).isInfo()){
+            holder.layout_info.setVisibility(View.VISIBLE);
+            holder.ibShow.setImageResource(drawable.ic_expand_less);
+        }
+        else{
+            holder.layout_info.setVisibility(View.GONE);
+            holder.ibShow.setImageResource(drawable.ic_expand);
+        }
+
         holder.tvEjercicio.setText(ejercicios.get(position).getEjercicio());
         holder.tvResumen.setText(ejercicios.get(position).getResumen());
 
-        holder.tvHoras.setText(ejercicios.get(position).getHoras());
-        holder.tvMinutos.setText(ejercicios.get(position).getMinutos());
-        holder.tvSegundos.setText(ejercicios.get(position).getSegundos());
+        if(entrenar != null){
+            holder.tvHoras.setText(ejercicios.get(position).getHoras());
+            holder.tvMinutos.setText(ejercicios.get(position).getMinutos());
+            holder.tvSegundos.setText(ejercicios.get(position).getSegundos());
+        }
+        else{
+            holder.layout_tiempo.setVisibility(View.GONE);
+        }
 
         holder.tvSeries.setText(String.valueOf(ejercicios.get(position).getSeries()));
         holder.tvRepeticiones.setText(String.valueOf(ejercicios.get(position).getRepeticiones()));
@@ -112,31 +140,11 @@ public class AdapterEjercicios extends RecyclerView.Adapter<AdapterEjercicios.My
         holder.tvDescanso.setText(ejercicios.get(position).getDescanso());
 
         holder.tvDescripcion.setText(ejercicios.get(position).getDescripcion());
-
-        if (ejercicios.get(position).getEstado() == 2){
-            holder.item_ejercicio.setBackgroundDrawable(ContextCompat.getDrawable(context, drawable.item_ejercicio_entreno_fin));
-        }
-        else{
-            if (indice == position){
-                holder.item_ejercicio.setBackgroundDrawable(ContextCompat.getDrawable(context, drawable.item_ejercicio_entreno_select));
-            }
-            else{
-                ejercicios.get(position).setEstado(0);
-                holder.item_ejercicio.setBackgroundDrawable(ContextCompat.getDrawable(context, drawable.item_ejercicio_entreno));
-            }
-        }
     }
 
     @Override
     public int getItemCount() {
         return ejercicios.size();
-    }
-
-    private void animate(View view, final int pos) {
-        view.animate().cancel();
-        view.setTranslationY(100);
-        view.setAlpha(0);
-        view.animate().alpha(1.0f).translationY(0).setDuration(300).setStartDelay(pos * 100);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder                       {
@@ -145,6 +153,8 @@ public class AdapterEjercicios extends RecyclerView.Adapter<AdapterEjercicios.My
         private ConstraintLayout layout_item;
         private TextView tvEjercicio;
         private TextView tvResumen;
+
+        private LinearLayout layout_tiempo;
         private TextView tvHoras;
         private TextView tvMinutos;
         private TextView tvSegundos;
@@ -164,6 +174,9 @@ public class AdapterEjercicios extends RecyclerView.Adapter<AdapterEjercicios.My
             layout_item = itemView.findViewById(id.layout_item);
             tvEjercicio = itemView.findViewById(id.tvEjercicio);
             tvResumen = itemView.findViewById(id.tvResumen);
+
+            layout_tiempo = itemView.findViewById(id.layout_tiempo);
+
             tvHoras = itemView.findViewById(id.tvHoras);
             tvMinutos = itemView.findViewById(id.tvMinutos);
             tvSegundos = itemView.findViewById(id.tvSegundos);

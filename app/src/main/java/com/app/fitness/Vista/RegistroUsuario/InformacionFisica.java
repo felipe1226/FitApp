@@ -40,6 +40,11 @@ public class InformacionFisica extends AppCompatActivity {
         gs = (GlobalState) getApplication();
         datosRegistro = gs.getDatosRegistro();
 
+        initView();
+    }
+
+    private void initView(){
+
         cbCrossfit = findViewById(R.id.rbCrossfit);
         cbGimnasio = findViewById(R.id.rbGimnasio);
         cbPesoCorporal = findViewById(R.id.rbPesoCorporal);
@@ -94,6 +99,7 @@ public class InformacionFisica extends AppCompatActivity {
     }
 
     private void registrarUsuario(){
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, gs.getIp() + "/Persona/registrar_persona.php",
                 new Response.Listener<String>() {
                     @Override

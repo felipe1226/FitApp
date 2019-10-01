@@ -38,7 +38,11 @@ public class InformacionUsuario extends AppCompatActivity {
         gs = (GlobalState) getApplication();
         datosRegistro =  gs.getDatosRegistro();
 
-        etEstatura = findViewById(R.id.etEstatura);
+        initView();
+    }
+
+    private void initView(){etEstatura = findViewById(R.id.etEstatura);
+
         etPeso = findViewById(R.id.etPeso);
 
         rbFemenino = findViewById(R.id.rbFemenino);
@@ -62,8 +66,7 @@ public class InformacionUsuario extends AppCompatActivity {
                         .get(Calendar.YEAR), calendario.get(Calendar.MONTH),
                         calendario.get(Calendar.DAY_OF_MONTH)).show();
             }
-        });
-    }
+        });}
 
     public void siguiente(View view) {
 

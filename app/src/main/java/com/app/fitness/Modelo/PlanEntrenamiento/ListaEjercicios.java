@@ -1,4 +1,4 @@
-package com.app.fitness.Vista.Entreno;
+package com.app.fitness.Modelo.PlanEntrenamiento;
 
 public class ListaEjercicios {
 
@@ -17,6 +17,8 @@ public class ListaEjercicios {
 
     private int estado;
 
+    private boolean info;
+
 
     public ListaEjercicios(int id, String ejercicio, int series, int repeticiones, String peso, String descanso, String descripcion) {
         this.id = id;
@@ -28,7 +30,13 @@ public class ListaEjercicios {
         this.descripcion = descripcion;
         this.estado = 0;
 
+        this.horas = "00";
+        this.minutos = "00";
+        this.segundos = "00";
+
         this.resumen = series + "/" + repeticiones + "/" + peso + "/" + descanso ;
+
+        info = false;
     }
 
     public void setTiempo(String horas, String minutos, String segundos) {
@@ -131,5 +139,13 @@ public class ListaEjercicios {
 
     public void setSegundos(String segundos) {
         this.segundos = segundos;
+    }
+
+    public boolean isInfo() {
+        return info;
+    }
+
+    public void setInfo(boolean info) {
+        this.info = info;
     }
 }

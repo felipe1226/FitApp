@@ -82,6 +82,22 @@
     <string name="text_peso_corporal">Peso corporal</string>
     <string name="text_cardio">Cardio</string>
 
+    <string name="text_lunes">Lunes</string>
+    <string name="text_martes">Martes</string>
+    <string name="text_miercoles">Miercoles</string>
+    <string name="text_jueves">Jueves</string>
+    <string name="text_viernes">Viernes</string>
+    <string name="text_sabado">Sabado</string>
+    <string name="text_domingo">Domingo</string>
+
+    <string name="text_lun">Lun</string>
+    <string name="text_mar">Mar</string>
+    <string name="text_mie">Mie</string>
+    <string name="text_jue">Jue</string>
+    <string name="text_vie">Vie</string>
+    <string name="text_sab">Sab</string>
+    <string name="text_dom">Dom</string>
+
 
     //TOAST
     <string name="toast_usuario_invalido">Usuario invalido</string>
@@ -103,7 +119,6 @@
     //DESCRIPCION
     <string name="descripcion_tipos_entrenamientos">¿Que tipos de entrenamientos te interesan?</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

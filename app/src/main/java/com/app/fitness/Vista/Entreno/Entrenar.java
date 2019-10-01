@@ -3,7 +3,6 @@ package com.app.fitness.Vista.Entreno;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -13,9 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,13 +19,14 @@ import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjercicios;
 import com.app.fitness.R;
 
 import java.util.ArrayList;
 
 public class Entrenar extends Fragment {
 
-    private HiloEntrenoEjercicio hiloEntrenoEjercicio;
+    private HiloEntrenoEjercicio hiloEntrenoEjercicio = null;
 
     private Button btnDetalles, btnEntreno;
     public Button btnIniEjercicio, btnFinEjercicio, btnFinRutina;
@@ -45,6 +42,7 @@ public class Entrenar extends Fragment {
     private ArrayList<String> listaMusculos;
 
     private ArrayList<ListaEjercicios> ejercicios;
+    private ArrayList<ListaEjerciciosRealizados> ejerciciosRealizados = new ArrayList<>();
 
     RequestQueue request;
 
@@ -133,30 +131,37 @@ public class Entrenar extends Fragment {
     }
 
     private void iniciarEjercicio(){
+
         btnIniEjercicio.setVisibility(View.GONE);
         btnFinEjercicio.setVisibility(View.VISIBLE);
 
         adapterEjercicios.setEntrenando(true);
 
-        hiloEntrenoEjercicio = new HiloEntrenoEjercicio(Entrenar.this);
-        hiloEntrenoEjercicio.execute();
+        if(hiloEntrenoEjercicio == null){
+            hiloEntrenoEjercicio = new HiloEntrenoEjercicio(Entrenar.this);
+            hiloEntrenoEjercicio.execute();
+        }
+        else{ hiloEntrenoEjercicio.initTiempoEjercicio(); }
     }
 
     private void finalizarEjercicio(){
 
         hiloEntrenoEjercicio.finalizarEjercicio();
+        agregarEjercicioRealizado();
+
         adapterEjercicios.finalizarEjercicio();
 
         btnIniEjercicio.setVisibility(View.VISIBLE);
         btnIniEjercicio.setEnabled(false);
 
         btnFinEjercicio.setVisibility(View.GONE);
+        btnFinRutina.setEnabled(true);
     }
 
     private void finalizarRutina(){
+
         hiloEntrenoEjercicio.onCancelled();
     }
-
 
     private void listarMusculos(){
         listaMusculos = new ArrayList<>();
@@ -199,6 +204,16 @@ public class Entrenar extends Fragment {
         adapterEjercicios = new AdapterEjercicios(this, getContext(), ejercicios);
         rvEjercicios.setLayoutManager(new GridLayoutManager(getContext(), 1));
         rvEjercicios.setAdapter(adapterEjercicios);
+    }
+
+    private void agregarEjercicioRealizado() {
+
+        int indice = adapterEjercicios.indice;
+        int tiempo = hiloEntrenoEjercicio.getTiempoEjercicio();
+        int inicio = hiloEntrenoEjercicio.getInicioEjercicio();
+        int fin = hiloEntrenoEjercicio.getFinEjercicio();
+
+        ejerciciosRealizados.add(new ListaEjerciciosRealizados(ejercicios.get(indice).getId(), tiempo, inicio, fin));
     }
 
     public void actualizarTiempoTotal(String horas, String minutos, String segundos) {

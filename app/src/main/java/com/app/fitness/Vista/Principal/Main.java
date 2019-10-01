@@ -30,11 +30,13 @@ public class Main extends AppCompatActivity {
     }
 
     public void registro(View view) {
+
         Intent intent = new Intent(this, RegistrarUsuario.class);
         startActivity(intent);
     }
 
     public void login(View view){
+
         Intent intent = new Intent(this, Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);

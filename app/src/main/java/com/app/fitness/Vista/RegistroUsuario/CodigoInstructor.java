@@ -56,6 +56,11 @@ public class CodigoInstructor extends AppCompatActivity {
 
         codigoCorrecto = false;
 
+        initView();
+    }
+
+    private void initView() {
+
         etCodigo = findViewById(R.id.etCodigo);
 
         btnVerificar = findViewById(R.id.btnVerificar);

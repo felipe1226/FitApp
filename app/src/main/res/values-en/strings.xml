@@ -2,5 +2,125 @@
 <resources>
     <string name="app_name">Fitness</string>
 
+    //LOGIN
+    <string name="text_mensaje_login">Recibe los mejores consejos y rutinas</string>
+    <string name="button_registro">Registrate con un correo electrónico</string>
+    <string name="text_registro">!Registrate ahora!</string>
+
+    <string name="text_descripcion_login">Iniciar sesión con un correo electrónico</string>
+    <string name="text_correo">Correo electrónico</string>
+    <string name="text_password">Contraseña</string>
+    <string name="text_forgot_password">Olvidé mi contraseña</string>
+
+    <string name="text_empieza">¡Empieza ahora!</string>
+    <string name="text_inicia_sesion">Inicia sesión</string>
+    <string name="text_iniciar_sesion">Iniciar sesión</string>
+
+    //REGISTRO USUARIO
+    <string name="text_codigo_instructor">Código del instructor</string>
+    <string name="text_verificar_codigo">Verificar código</string>
+    <string name="text_informacion_instructor">Información del instructor</string>
+
+    <string name="text_tipo_identificacion">Tipo de identificacion</string>
+    <string name="text_identificacion">Identificacion</string>
+    <string name="text_nombres">Nombres</string>
+    <string name="text_apellidos">Apellidos</string>
+    <string name="text_email">Email</string>
+    <string name="text_ciudad_residencia">Ciudad de residencia</string>
+
+
+    //BOTTOM NAVIGATION
+    <string name="text_inicio">Inicio</string>
+    <string name="text_entrena">Entrena</string>
+    <string name="text_perfil">Perfil</string>
+
+    //INICIO
+    <string name="text_buscar">Buscar...</string>
+    <string name="text_detalles">Detalles</string>
+    <string name="text_Entrenar">Entrenar</string>
+
+    //INSTRUCTORES
+    <string name="text_seguidores">Seguidores</string>
+    <string name="text_nivel">Nivel:</string>
+    <string name="text_duracion">Duración:</string>
+    <string name="text_tiempo_diario">Tiempo diario:</string>
+    <string name="text_requerimiento">Requerimiento:</string>
+
+    //EJERCICIOS
+    <string name="text_categoria">Categoría</string>
+    <string name="text_series">Series</string>
+    <string name="text_repeticiones">Repeticiones</string>
+    <string name="text_descanso">Descanso</string>
+    <string name="text_rutina">Rutina</string>
+    <string name="text_rutinas">Rutinas</string>
+    <string name="text_musculos_implicados">Músculos implicados</string>
+
+
+    <string name="text_nombre">Nombre</string>
+    <string name="text_descripcion">Descripción</string>
+
+    <string name="text_crear">Crear</string>
+
+    <string name="text_crear_publicacion">Crear publicación</string>
+    <string name="text_titulo">Título</string>
+    <string name="title_activity_login">Login</string>
+
+    //TEXT
+    <string name="text_informacion_contacto">Informacion de contacto</string>
+    <string name="text_usuario">Usuario</string>
+    <string name="text_movil">Movil</string>
+    <string name="text_genero">Genero</string>
+    <string name="text_peso">Peso</string>
+    <string name="text_estatura">Estatura</string>
+    <string name="text_masculino">Maculino</string>
+    <string name="text_femenino">Femenino</string>
+    <string name="text_fecha_nacimiento">Fecha de nacimiento</string>
+    <string name="text_localidad">Localidad</string>
+    <string name="text_nivel_acondicionamiento">Nivel de acondicionamiento</string>
+    <string name="text_objetivo_entrenamiento">Objetivo de entrenamiento</string>
+    <string name="text_fumas">¿Fumas?</string>
+    <string name="text_gimnasio">Gimnasio</string>
+    <string name="text_peso_corporal">Peso corporal</string>
+    <string name="text_cardio">Cardio</string>
+
+    <string name="text_lunes">Lunes</string>
+    <string name="text_martes">Martes</string>
+    <string name="text_miercoles">Miercoles</string>
+    <string name="text_jueves">Jueves</string>
+    <string name="text_viernes">Viernes</string>
+    <string name="text_sabado">Sabado</string>
+    <string name="text_domingo">Domingo</string>
+
+    <string name="text_lun">Lun</string>
+    <string name="text_mar">Mar</string>
+    <string name="text_mie">Mie</string>
+    <string name="text_jue">Jue</string>
+    <string name="text_vie">Vie</string>
+    <string name="text_sab">Sab</string>
+    <string name="text_dom">Dom</string>
+
+
+    //TOAST
+    <string name="toast_usuario_invalido">Usuario invalido</string>
+
+    <string name="toast_formulario_incompleto">Debe completar la informacion</string>
+    <string name="toast_codigo_vacio">Campo de código vacio</string>
+    <string name="toast_codigo_invalido">Código no válido</string>
+
+
+    //BUTTON
+    <string name="button_siguiente">Siguiente</string>
+    <string name="button_aceptar">Aceptar</string>
+    <string name="button_registrarme">Registrarme</string>
+
+    <string name="button_iniciar_ejercicio">Empezar ejercicio</string>
+    <string name="button_fin_ejercicio">Finalizar ejercicio</string>
+    <string name="button_fin_rutina">Finalizar rutina</string>
+
+    //DESCRIPCION
+    <string name="descripcion_tipos_entrenamientos">¿Que tipos de entrenamientos te interesan?</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

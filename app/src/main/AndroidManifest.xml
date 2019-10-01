@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Vista.RegistroUsuario.InformacionFisica"></activity>
+        <activity android:name=".Vista.CalendarioPlan.CalendarioPlanRutina"></activity>
+        <activity android:name=".Vista.RegistroUsuario.InformacionFisica" />
         <activity android:name=".Vista.RegistroUsuario.InformacionUsuario" />
         <activity android:name=".Vista.RegistroUsuario.InformacionContacto" />
         <activity android:name=".Vista.RegistroUsuario.CodigoInstructor" />
@@ -30,15 +31,15 @@
         <activity android:name=".Vista.Principal.RegistrarUsuario" />
         <activity android:name=".Vista.Principal.Login" />
     </application>
+
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

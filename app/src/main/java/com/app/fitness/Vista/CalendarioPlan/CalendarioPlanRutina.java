@@ -1,58 +1,88 @@
-package com.app.fitness.Vista.Hoy;
+package com.app.fitness.Vista.CalendarioPlan;
 
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle;
 
+import com.app.fitness.Modelo.Calendario.Meses;
+import com.app.fitness.R;
+import com.app.fitness.Vista.Entreno.AdapterEjercicios;
+import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjercicios;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaPlanRutinas;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaRutinas;
-import com.app.fitness.R;
-import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjercicios;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class Hoy extends Fragment {
+public class CalendarioPlanRutina extends AppCompatActivity {
+
+    private AdapterCalendarioPlan adapterCalendarioPlan;
 
     private ArrayList<ListaEjercicios> ejercicios;
     private ArrayList<ListaRutinas> rutinas;
     private ArrayList<ListaPlanRutinas> planRutinas;
 
-    private RecyclerView rvHoy;
+    private AdapterEjercicios adapterEjercicios;
+
+    private RecyclerView rvCalendario;
+    private RecyclerView rvEjercicios;
+
+    int diaIncial;
+    int diaActual;
+    String mes;
+    int diasMes;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.activity_calendario_plan_rutina);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+        int id = getIntent().getExtras().getInt("id");
 
-        View v = inflater.inflate(R.layout.fragment_hoy, container, false);
-
-        initView(v);
+        initView();
 
         generarEjercicios();
         generarRutinas();
         generarPlanesRutinas();
 
-        return v;
+        try {
+            fechaActual();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        generarCalendario(id);
     }
 
-    private void initView(View v) {
+    private void initView(){
 
-        rvHoy = v.findViewById(R.id.rvHoy);
+        rvCalendario = findViewById(R.id.rvCalendario);
+        rvEjercicios = findViewById(R.id.rvEjercicios);
+    }
+
+    private void fechaActual() throws ParseException {
+
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String[] fecha = dateFormat.format(c.getTime()).split("-");
+
+        Meses meses = new Meses();
+        meses.verificarBiciesto(Integer.parseInt(fecha[0]));
+
+        c.set(Integer.parseInt(fecha[2]),Integer.parseInt(fecha[1]),1);
+        int diaSemana =  c.get(Calendar.DAY_OF_WEEK);
+
+        diaActual = Integer.parseInt(fecha[2]);
+        diaIncial = diaSemana;
+        mes = meses.getMes(Integer.parseInt(fecha[1]));
+        diasMes = meses.getDias(Integer.parseInt(fecha[1]));
     }
 
     private void generarEjercicios(){
-
         ejercicios = new ArrayList<>();
 
         ejercicios.add(new ListaEjercicios(1,
@@ -81,7 +111,6 @@ public class Hoy extends Fragment {
     }
 
     private void generarRutinas(){
-
         rutinas = new ArrayList<>();
 
         ArrayList<ListaEjercicios> listaEjercicios = new ArrayList<>();
@@ -146,7 +175,6 @@ public class Hoy extends Fragment {
     }
 
     private void generarPlanesRutinas(){
-
         planRutinas = new ArrayList<>();
 
         ArrayList<ListaRutinas> listaRutinas = new ArrayList<>();
@@ -154,6 +182,8 @@ public class Hoy extends Fragment {
         listaRutinas.add(rutinas.get(0));
         listaRutinas.add(rutinas.get(1));
         listaRutinas.add(rutinas.get(2));
+        listaRutinas.add(rutinas.get(3));
+        listaRutinas.add(rutinas.get(4));
 
         planRutinas.add(new ListaPlanRutinas(1,
                 "Reduccion de grasa",
@@ -162,7 +192,7 @@ public class Hoy extends Fragment {
                 listaRutinas));
 
 
-        listaRutinas.clear();
+        listaRutinas = new ArrayList<>();
 
         listaRutinas.add(rutinas.get(0));
         listaRutinas.add(rutinas.get(1));
@@ -172,9 +202,26 @@ public class Hoy extends Fragment {
                 "Mejora de fuerza",
                 8,
                 listaRutinas));
+    }
 
-        AdapterHoy adapter = new AdapterHoy(getContext(), planRutinas);
-        rvHoy.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        rvHoy.setAdapter(adapter);
+    private void generarCalendario(int id) {
+
+        rutinas = new ArrayList<>();
+
+        for (int i=0;i<planRutinas.size();i++){
+            if(planRutinas.get(i).getId() == id){
+                adapterCalendarioPlan = new AdapterCalendarioPlan(this, planRutinas.get(i).getRutinas(), diaActual, diaIncial, mes, diasMes);
+                rvCalendario.setLayoutManager(new GridLayoutManager(this, 7));
+                rvCalendario.setAdapter(adapterCalendarioPlan);
+                break;
+            }
+        }
+    }
+
+    public void verEjercicios(ArrayList<ListaEjercicios> ejercicios){
+
+        adapterEjercicios = new AdapterEjercicios(null, this, ejercicios);
+        rvEjercicios.setLayoutManager(new GridLayoutManager(this, 1));
+        rvEjercicios.setAdapter(adapterEjercicios);
     }
 }

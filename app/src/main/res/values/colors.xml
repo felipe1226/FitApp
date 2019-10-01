@@ -14,9 +14,21 @@
     <color name="background_ejercicios_inicio">#CECECE</color>
     <color name="background_dark">#252525</color>
 
+
     //ITEM
     <color name="background_select">#16FF4E</color>
     <color name="background_fin">@color/button_primary</color>
+
+
+    <color name="text_calendario">#FFFFFF</color>
+    <color name="background_calendario">#DDDDDD</color>
+    <color name="border_calendario">#AFAFAF</color>
+
+    <color name="background_calendario_actual">#00DD1E</color>
+    <color name="border_calendario_actual">#00AF1E</color>
+
+    <color name="background_calendario_done">@color/background_fin</color>
+    <color name="border_calendario_done">#0055AF</color>
 
     //BUTTON
     <color name="button_text">#ffffff</color>

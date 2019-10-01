@@ -57,6 +57,14 @@ public class InformacionContacto extends AppCompatActivity {
 
         request = Volley.newRequestQueue(this);
 
+        initView();
+
+        listarLocalidades();
+        cargarTipos();
+    }
+
+    private void initView(){
+
         etPassword = findViewById(R.id.etPassword);
 
         spTipo = findViewById(R.id.spTipo);
@@ -71,9 +79,6 @@ public class InformacionContacto extends AppCompatActivity {
 
         btnRegresar = findViewById(R.id.btnRegresar);
         btnSiguiente = findViewById(R.id.btnSiguiente);
-
-        listarLocalidades();
-        cargarTipos();
     }
 
     public void regresar(View view) {

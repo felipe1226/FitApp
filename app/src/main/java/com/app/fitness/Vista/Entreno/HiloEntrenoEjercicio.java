@@ -8,17 +8,17 @@ public class HiloEntrenoEjercicio extends AsyncTask<Void, Integer, Boolean> {
 
     Entrenar entrenar;
 
-    AdapterEjercicios adapterEjercicios;
-
     public boolean entreno;
     public boolean ejercicio;
 
     private int tiempoTotal;
     private int tiempoEjercicio;
 
+    private int inicioEjercicio;
+    private int finEjercicio;
+
     private int[] cadenaTiempoTotal;
     private int[] cadenaTiempoEjercicio;
-
 
     public HiloEntrenoEjercicio(Entrenar entrenar) {
         this.entrenar = entrenar;
@@ -36,7 +36,7 @@ public class HiloEntrenoEjercicio extends AsyncTask<Void, Integer, Boolean> {
         entreno = true;
     }
 
-    private void initTiempoEjercicio(){
+    public void initTiempoEjercicio(){
 
         tiempoEjercicio = 0;
 
@@ -45,19 +45,17 @@ public class HiloEntrenoEjercicio extends AsyncTask<Void, Integer, Boolean> {
         cadenaTiempoEjercicio[1] = 0;
         cadenaTiempoEjercicio[2] = 0;
 
-        ejercicio = false;
-    }
+        ejercicio = true;
 
-    public void finalizarEjercicio(){
-
-        initTiempoEjercicio();
+        inicioEjercicio = tiempoTotal;
     }
 
     private int[] sumarTiempo(int[] tiempos){
+
         int[] tiempo = new int[3];
-        tiempos[0] = 0;
-        tiempos[1] = 0;
-        tiempos[2] = 0;
+        tiempo[0] = tiempos[0];
+        tiempo[1] = tiempos[1];
+        tiempo[2] = tiempos[2];
 
         if(tiempo[2] < 59){ tiempo[2]++; }
         else{
@@ -71,14 +69,18 @@ public class HiloEntrenoEjercicio extends AsyncTask<Void, Integer, Boolean> {
         return tiempo;
     }
 
+    public void finalizarEjercicio(){
+
+        ejercicio = false;
+        finEjercicio = tiempoTotal;
+    }
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
 
         initTiempoTotal();
         initTiempoEjercicio();
-
-        ejercicio = true;
     }
 
     @Override
@@ -97,6 +99,7 @@ public class HiloEntrenoEjercicio extends AsyncTask<Void, Integer, Boolean> {
 
                 publishProgress(cadenaTiempoTotal[0], cadenaTiempoTotal[1], cadenaTiempoTotal[2],
                         cadenaTiempoEjercicio[0], cadenaTiempoEjercicio[1],cadenaTiempoEjercicio[2]);
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -132,13 +135,29 @@ public class HiloEntrenoEjercicio extends AsyncTask<Void, Integer, Boolean> {
     @Override
     protected void onPostExecute(Boolean resultado) {
         super.onPostExecute(resultado);
-
-        entreno = false;
     }
 
     @Override
     protected void onCancelled() {
         super.onCancelled();
+
+        entreno = false;
+    }
+
+    public int getTiempoTotal() {
+        return tiempoTotal;
+    }
+
+    public int getTiempoEjercicio() {
+        return tiempoEjercicio;
+    }
+
+    public int getInicioEjercicio() {
+        return inicioEjercicio;
+    }
+
+    public int getFinEjercicio() {
+        return finEjercicio;
     }
 
     public void setEjercicio(boolean ejercicio) {

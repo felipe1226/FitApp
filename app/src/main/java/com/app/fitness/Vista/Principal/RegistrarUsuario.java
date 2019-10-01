@@ -19,9 +19,7 @@ public class RegistrarUsuario extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_usuario);
 
-
         initView();
-
     }
 
     private void initView() {

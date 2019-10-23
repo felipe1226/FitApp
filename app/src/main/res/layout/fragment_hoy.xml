@@ -5,11 +5,18 @@
     android:layout_height="match_parent"
     android:background="@color/background_ligth"
     android:orientation="vertical"
-    android:padding="15dp"
     tools:context=".Vista.Hoy.Hoy">
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/descripcion_rutina_hoy" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHoy"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp" />
 </LinearLayout>

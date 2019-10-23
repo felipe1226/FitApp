@@ -1,40 +1,50 @@
 package com.app.fitness.Vista.CalendarioPlan;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.app.fitness.Modelo.Calendario.Meses;
 import com.app.fitness.R;
-import com.app.fitness.Vista.Entreno.AdapterEjercicios;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjercicios;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaPlanRutinas;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaRutinas;
+import com.app.fitness.Vista.PagerAdapter;
+import com.google.android.material.tabs.TabLayout;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class CalendarioPlanRutina extends AppCompatActivity {
 
-    private AdapterCalendarioPlan adapterCalendarioPlan;
+    private ViewPager viewPagerMeses;
+    private ViewPager viewPagerRutina;
+
+    private static final String tabMeses1 = null;
+    private static final String tabMeses2 = null;
+
+    private static final String tabRutina1 = "Resumen";
+    private static final String tabRutina2 = "Ejercicios";
+
+    private TabLayout tabMeses;
+    private TabLayout tabRutina;
+
+    public Calendario calendario1;
+    public Calendario calendario2;
+
+    private LinearLayout layout_resumen;
+
+    public Ejercicios ejerciciosCalendario;
+    public ResumenRutina resumenRutina;
 
     private ArrayList<ListaEjercicios> ejercicios;
     private ArrayList<ListaRutinas> rutinas;
     private ArrayList<ListaPlanRutinas> planRutinas;
 
-    private AdapterEjercicios adapterEjercicios;
-
-    private RecyclerView rvCalendario;
-    private RecyclerView rvEjercicios;
-
-    int diaIncial;
-    int diaActual;
-    String mes;
-    int diasMes;
+    private TextView tvRutina, tvMsgSeleccionaRutina;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,37 +59,45 @@ public class CalendarioPlanRutina extends AppCompatActivity {
         generarRutinas();
         generarPlanesRutinas();
 
-        try {
-            fechaActual();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        generarCalendario(id);
+        calendario1 = new Calendario(id, this, planRutinas);
+        calendario2 = new Calendario(id, this, planRutinas);
+
+        ejerciciosCalendario = new Ejercicios();
+        resumenRutina = new ResumenRutina();
+
+        septupViewPager(viewPagerMeses, viewPagerRutina);
+        tabMeses.setupWithViewPager(viewPagerMeses);
+        tabRutina.setupWithViewPager(viewPagerRutina);
     }
 
     private void initView(){
 
-        rvCalendario = findViewById(R.id.rvCalendario);
-        rvEjercicios = findViewById(R.id.rvEjercicios);
+        viewPagerMeses = findViewById(R.id.containerCalendario);
+        viewPagerRutina = findViewById(R.id.container);
+
+        tabMeses = findViewById(R.id.tab_meses);
+
+        layout_resumen = findViewById(R.id.layout_resumen);
+
+        tabRutina = findViewById(R.id.tab_page);
+
+        tvRutina = findViewById(R.id.tvRutina);
+        tvRutina.setVisibility(View.GONE);
+        layout_resumen.setVisibility(View.GONE);
+
+        tvMsgSeleccionaRutina = findViewById(R.id.tvMsgSeleccionaRutina);
     }
 
-    private void fechaActual() throws ParseException {
+    private void septupViewPager(ViewPager viewPagerMeses, ViewPager viewPagerRutina) {
+        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(calendario1, "Octubre");
+        adapter.addFragment(calendario2, "Noviembre");
+        viewPagerMeses.setAdapter(adapter);
 
-        Calendar c = Calendar.getInstance();
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String[] fecha = dateFormat.format(c.getTime()).split("-");
-
-        Meses meses = new Meses();
-        meses.verificarBiciesto(Integer.parseInt(fecha[0]));
-
-        c.set(Integer.parseInt(fecha[2]),Integer.parseInt(fecha[1]),1);
-        int diaSemana =  c.get(Calendar.DAY_OF_WEEK);
-
-        diaActual = Integer.parseInt(fecha[2]);
-        diaIncial = diaSemana;
-        mes = meses.getMes(Integer.parseInt(fecha[1]));
-        diasMes = meses.getDias(Integer.parseInt(fecha[1]));
+        adapter = new PagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(resumenRutina, tabRutina1);
+        adapter.addFragment(ejerciciosCalendario, tabRutina2);
+        viewPagerRutina.setAdapter(adapter);
     }
 
     private void generarEjercicios(){
@@ -204,24 +222,36 @@ public class CalendarioPlanRutina extends AppCompatActivity {
                 listaRutinas));
     }
 
-    private void generarCalendario(int id) {
+    public void verEjercicios(ArrayList<ListaEjercicios> ejercicios, String dia, int idRutina, String rutina, int estado){
 
-        rutinas = new ArrayList<>();
+        tvRutina.setText(dia + "- " + rutina);
 
-        for (int i=0;i<planRutinas.size();i++){
-            if(planRutinas.get(i).getId() == id){
-                adapterCalendarioPlan = new AdapterCalendarioPlan(this, planRutinas.get(i).getRutinas(), diaActual, diaIncial, mes, diasMes);
-                rvCalendario.setLayoutManager(new GridLayoutManager(this, 7));
-                rvCalendario.setAdapter(adapterCalendarioPlan);
-                break;
-            }
+        switch (estado){
+            case 0: tvRutina.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.item_calendario_rutina));
+                    break;
+
+            case 1: tvRutina.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.item_calendario_done));
+                    break;
+
+            case 2: tvRutina.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.item_calendario_actual));
+                    break;
         }
+
+        resumenRutina.actualizarResumen(idRutina, estado);
+        layout_resumen.setVisibility(View.VISIBLE);
+
+        ejerciciosCalendario.setEjercicios(ejercicios);
+        ejerciciosCalendario.verEjercicios();
+
+        tvRutina.setVisibility(View.VISIBLE);
+
+        tvMsgSeleccionaRutina.setVisibility(View.GONE);
     }
 
-    public void verEjercicios(ArrayList<ListaEjercicios> ejercicios){
+    public void ocultarEjercicios(){
 
-        adapterEjercicios = new AdapterEjercicios(null, this, ejercicios);
-        rvEjercicios.setLayoutManager(new GridLayoutManager(this, 1));
-        rvEjercicios.setAdapter(adapterEjercicios);
+        tvRutina.setVisibility(View.GONE);
+        layout_resumen.setVisibility(View.GONE);
+        tvMsgSeleccionaRutina.setVisibility(View.VISIBLE);
     }
 }

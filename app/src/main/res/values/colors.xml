@@ -11,7 +11,7 @@
 
     //BACKGROUND
     <color name="background_ligth">#FFFFFF</color>
-    <color name="background_ejercicios_inicio">#CECECE</color>
+    <color name="background_ejercicios_inicio">#DDDDDD</color>
     <color name="background_dark">#252525</color>
 
 
@@ -21,7 +21,9 @@
 
 
     <color name="text_calendario">#FFFFFF</color>
-    <color name="background_calendario">#DDDDDD</color>
+    <color name="background_calendario">#FFFFFF</color>
+
+    <color name="background_calendario_rutina">#DDDDDD</color>
     <color name="border_calendario">#AFAFAF</color>
 
     <color name="background_calendario_actual">#00DD1E</color>

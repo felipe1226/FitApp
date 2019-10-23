@@ -23,6 +23,7 @@ import static com.app.fitness.R.*;
 public class AdapterEjercicios extends RecyclerView.Adapter<AdapterEjercicios.MyViewHolder>{
 
     private Entrenar entrenar;
+    private Iniciar iniciar;
     private Context context;
     private ArrayList<ListaEjercicios> ejercicios;
 
@@ -39,6 +40,15 @@ public class AdapterEjercicios extends RecyclerView.Adapter<AdapterEjercicios.My
         this.entrenando = false;
     }
 
+    public AdapterEjercicios(Entrenar entrenar, Iniciar iniciar, Context context, ArrayList<ListaEjercicios> ejercicios) {
+        this.entrenar = entrenar;
+        this.iniciar = iniciar;
+        this.context = context;
+        this.ejercicios = ejercicios;
+
+        this.entrenando = false;
+    }
+
     public void setEntrenando(boolean entrenando) {
         this.entrenando = entrenando;
     }
@@ -47,6 +57,11 @@ public class AdapterEjercicios extends RecyclerView.Adapter<AdapterEjercicios.My
 
         ejercicios.get(indice).setTiempo(horas, minutos, segundos);
         notifyItemChanged(indice);
+    }
+
+    public void actualizar(ArrayList<ListaEjercicios> ejercicios){
+        this.ejercicios = ejercicios;
+        notifyDataSetChanged();
     }
 
     public void finalizarEjercicio(){
@@ -81,7 +96,7 @@ public class AdapterEjercicios extends RecyclerView.Adapter<AdapterEjercicios.My
                         if(ejercicios.get(posicion).getEstado() == 0){
                             indice = posicion;
                             ejercicios.get(indice).setEstado(1);
-                            entrenar.btnIniEjercicio.setEnabled(true);
+                            iniciar.btnIniEjercicio.setEnabled(true);
                             notifyDataSetChanged();
                         }
                     }

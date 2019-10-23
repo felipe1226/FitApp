@@ -6,7 +6,8 @@ import static java.lang.Thread.sleep;
 
 public class HiloEntrenoEjercicio extends AsyncTask<Void, Integer, Boolean> {
 
-    Entrenar entrenar;
+    public Entrenar entrenar;
+    public Iniciar iniciar;
 
     public boolean entreno;
     public boolean ejercicio;
@@ -20,8 +21,9 @@ public class HiloEntrenoEjercicio extends AsyncTask<Void, Integer, Boolean> {
     private int[] cadenaTiempoTotal;
     private int[] cadenaTiempoEjercicio;
 
-    public HiloEntrenoEjercicio(Entrenar entrenar) {
+    public HiloEntrenoEjercicio(Entrenar entrenar, Iniciar iniciar) {
         this.entrenar = entrenar;
+        this.iniciar = iniciar;
     }
 
     private void initTiempoTotal(){
@@ -127,7 +129,7 @@ public class HiloEntrenoEjercicio extends AsyncTask<Void, Integer, Boolean> {
         if(values[4]< 10){ minutosEjercicio = "0" + values[4]; }
         if(values[5]< 10){ segundosEjercicio = "0" + values[5]; }
 
-        entrenar.actualizarTiempoTotal(horasTotal, minutosTotal, segundosTotal);
+        iniciar.actualizarTiempoTotal(horasTotal, minutosTotal, segundosTotal);
 
         if(ejercicio){ entrenar.actualizarTiempoEjercicio(horasEjercicio, minutosEjercicio, segundosEjercicio); }
     }

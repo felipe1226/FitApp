@@ -36,7 +36,7 @@
     //INICIO
     <string name="text_buscar">Buscar...</string>
     <string name="text_detalles">Detalles</string>
-    <string name="text_Entrenar">Entrenar</string>
+    <string name="text_entrenar">Entrenar</string>
 
     //INSTRUCTORES
     <string name="text_seguidores">Seguidores</string>
@@ -82,6 +82,12 @@
     <string name="text_peso_corporal">Peso corporal</string>
     <string name="text_cardio">Cardio</string>
 
+
+    //HOY
+    <string name="descripcion_rutina_hoy">Tu rutina de hoy</string>
+
+    //TEXT CALENDARIO
+
     <string name="text_lunes">Lunes</string>
     <string name="text_martes">Martes</string>
     <string name="text_miercoles">Miercoles</string>
@@ -97,6 +103,16 @@
     <string name="text_vie">Vie</string>
     <string name="text_sab">Sab</string>
     <string name="text_dom">Dom</string>
+
+    <string name="text_realizadas">Realizadas</string>
+    <string name="text_pendientes">Pendientes</string>
+    <string name="text_hoy">Hoy</string>
+
+    <string name="text_posponer_rutina">Posponer rutina</string>
+
+
+    <string name="descripcion_selecciona_rutina">Selecciona una rutina de entrenamiento para ver su información.</string>
+    <string name="descripcion_rutina_no_realizada">Aún no has realizado la rutina de entrenamiento.</string>
 
 
     //TOAST

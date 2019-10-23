@@ -5,11 +5,13 @@ import android.app.Application;
 import com.app.fitness.Modelo.Instructor.DatosInstructor;
 import com.app.fitness.Modelo.Persona.DatosPersona;
 import com.app.fitness.Modelo.Registro.DatosRegistro;
+import com.app.fitness.Vista.Entreno.Entrenar;
 
 public class GlobalState extends Application {
 
     public String ip = "http://fitapp.foodster.com.co/back-end/Android";
 
+    public Entrenar entrenar;
 
     public DatosInstructor datosInstructor =  new DatosInstructor();
     public DatosPersona datosPersona =  new DatosPersona();
@@ -24,6 +26,13 @@ public class GlobalState extends Application {
         this.ip = ip;
     }
 
+    public Entrenar getEntrenar() {
+        return entrenar;
+    }
+
+    public void setEntrenar(Entrenar entrenar) {
+        this.entrenar = entrenar;
+    }
 
     public DatosInstructor getDatosInstructor() {
         return datosInstructor;

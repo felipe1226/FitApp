@@ -1,4 +1,4 @@
-package com.app.fitness.Vista;
+package com.app.fitness.Vista.Perfil;
 
 
 import android.os.Bundle;
@@ -12,23 +12,22 @@ import android.view.ViewGroup;
 import com.app.fitness.R;
 
 
-public class Perfil extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class Informe extends Fragment {
+
+
+    public Informe() {
+        // Required empty public constructor
+    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        View v = inflater.inflate(R.layout.fragment_perfil, container, false);
-
-        initView(v);
-
-        return v;
-
-    }
-
-    private void initView(View v) {
+        return inflater.inflate(R.layout.fragment_informe_perfil, container, false);
     }
 
 }

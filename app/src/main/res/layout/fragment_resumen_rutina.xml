@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".Vista.CalendarioPlan.ResumenRutina">
+
+    <LinearLayout
+        android:id="@+id/layout_acciones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvMensaje"
+            android:layout_width="213dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/descripcion_rutina_no_realizada" />
+
+        <Button
+            android:id="@+id/btnPosponer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_posponer_rutina"/>
+
+        <Button
+            android:id="@+id/btnEntrenar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_entrenar"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

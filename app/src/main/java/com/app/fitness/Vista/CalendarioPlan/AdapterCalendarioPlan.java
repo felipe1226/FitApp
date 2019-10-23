@@ -1,12 +1,14 @@
 package com.app.fitness.Vista.CalendarioPlan;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 public class AdapterCalendarioPlan extends RecyclerView.Adapter<AdapterCalendarioPlan.MyViewHolder> {
 
     CalendarioPlanRutina calendarioPlanRutina;
+    Calendario calendario;
     Context context;
     ArrayList<ListaRutinas> rutinas;
 
@@ -31,10 +34,11 @@ public class AdapterCalendarioPlan extends RecyclerView.Adapter<AdapterCalendari
     int auxPosicion;
     int auxDia;
 
-    public AdapterCalendarioPlan(CalendarioPlanRutina calendarioPlanRutina, ArrayList<ListaRutinas> rutinas, int diaActual, int diaInicial, String mes, int diasMes) {
+    public AdapterCalendarioPlan(CalendarioPlanRutina calendarioPlanRutina, Calendario calendario, ArrayList<ListaRutinas> rutinas, int diaActual, int diaInicial, String mes, int diasMes) {
 
         this.calendarioPlanRutina = calendarioPlanRutina;
-        this.context = calendarioPlanRutina.getApplicationContext();
+        this.calendario = calendario;
+        this.context = calendario.getContext();
         this.rutinas = rutinas;
 
         this.diaActual = diaActual;
@@ -65,34 +69,61 @@ public class AdapterCalendarioPlan extends RecyclerView.Adapter<AdapterCalendari
         return holder;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull final AdapterCalendarioPlan.MyViewHolder holder, int position) {
-        boolean rutina = false;
+
+        int estado = 0;
 
         if(position >= diaInicial - 1){
             holder.tvDia.setText(String.valueOf(auxDia));
-            if(rutinas.size() > auxPosicion && rutinas.get(auxPosicion).getDia() == auxDia ){
-                holder.tvRutina.setText(rutinas.get(auxPosicion).getNombre());
-                if(auxDia < diaActual){
-                    holder.item_calendario.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.item_calendario_done));
-                    holder.tvDia.setTextColor(context.getResources().getColor(R.color.text_calendario));
-                    holder.tvRutina.setTextColor(context.getResources().getColor(R.color.text_calendario));
-                }
-                else if (auxDia == diaActual) { holder.item_calendario.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.item_calendario_actual)); }
 
-                holder.item_calendario.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        calendarioPlanRutina.verEjercicios(rutinas.get(auxPosicion).getEjercicios());
+            if(auxPosicion < rutinas.size()){
+                if(rutinas.get(auxPosicion).getDia() == auxDia ){
+                    holder.tvRutina.setText(rutinas.get(auxPosicion).getNombre());
+                    if(auxDia < diaActual){
+                        holder.item_calendario.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.item_calendario_done));
+                        holder.tvDia.setTextColor(context.getResources().getColor(R.color.text_calendario));
+                        holder.tvRutina.setTextColor(context.getResources().getColor(R.color.text_calendario));
+                        estado = 1;
                     }
-                });
-                if(rutinas.size() > auxPosicion + 1){
-                    auxPosicion++;
-                }
-                rutina = true;
-            }
-            if(!rutina){ holder.item_calendario.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.item_calendario)); }
+                    else{
+                        if (auxDia == diaActual) {
+                            estado = 2;
+                            holder.item_calendario.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.item_calendario_actual));
+                        }
+                        else {
+                            estado = 0;
+                            holder.item_calendario.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.item_calendario_rutina));
+                        }
+                    }
 
+                    final int finalEstado = estado;
+                    holder.item_calendario.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            calendarioPlanRutina.verEjercicios(rutinas.get(auxPosicion).getEjercicios(),
+                                    holder.tvDia.getText().toString(),
+                                    rutinas.get(auxPosicion).getId(),
+                                    holder.tvRutina.getText().toString(),
+                                    finalEstado);
+                        }
+                    });
+                    if(rutinas.size() > auxPosicion + 1){
+                        auxPosicion++;
+                    }
+                }
+                else{
+                    holder.item_calendario.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.item_calendario));
+
+                    holder.item_calendario.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            calendarioPlanRutina.ocultarEjercicios();
+                        }
+                    });
+                }
+            }
             auxDia ++;
         }
         else{ holder.item_calendario.setVisibility(View.GONE); }

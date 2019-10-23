@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.app.fitness.R;
 import com.app.fitness.Vista.Entreno.Entrenar;
 import com.app.fitness.Vista.Hoy.Hoy;
-import com.app.fitness.Vista.Perfil;
+import com.app.fitness.Vista.Perfil.Perfil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class Navigation extends AppCompatActivity {
@@ -26,7 +26,7 @@ public class Navigation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
-        addFragment(fragmentHoy);
+        addFragment(fragmentHoy, "Hoy");
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -64,9 +64,9 @@ public class Navigation extends AppCompatActivity {
         }
     };
 
-    private void addFragment(Fragment fragment){
+    private void addFragment(Fragment fragment, String tag){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, fragment, fragment.getClass().toString());
+        fragmentTransaction.add(R.id.fragment_container, fragment, tag);
         fragmentTransaction.commit();
     }
 

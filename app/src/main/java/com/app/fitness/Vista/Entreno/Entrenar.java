@@ -1,45 +1,43 @@
 package com.app.fitness.Vista.Entreno;
 
-
 import android.os.Bundle;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.app.fitness.GlobalState;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjercicios;
 import com.app.fitness.R;
+import com.app.fitness.Vista.PagerAdapter;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
 public class Entrenar extends Fragment {
 
-    private HiloEntrenoEjercicio hiloEntrenoEjercicio = null;
+    GlobalState gs;
 
-    private Button btnDetalles, btnEntreno;
-    public Button btnIniEjercicio, btnFinEjercicio, btnFinRutina;
+    public Detalles detalles = new Detalles();
+    public Iniciar iniciar = new Iniciar();
 
-    private ConstraintLayout layout_detalles;
-    private LinearLayout layout_entreno;
-    public TextView tvHoras, tvMinutos, tvSegundos;
-    private ImageView ivMusculos;
-    private RecyclerView rvMusculos, rvEjercicios;
+    private static final String tab1 = "Detalles";
+    private static final String tab2 = "Iniciar";
 
-    private AdapterEjercicios adapterEjercicios;
+    public HiloEntrenoEjercicio hiloEntrenoEjercicio = null;
 
-    private ArrayList<String> listaMusculos;
+    private ViewPager viewPager;
+
+    private RecyclerView rvEjercicios;
+
+    public AdapterEjercicios adapterEjercicios;
 
     private ArrayList<ListaEjercicios> ejercicios;
     private ArrayList<ListaEjerciciosRealizados> ejerciciosRealizados = new ArrayList<>();
@@ -49,6 +47,9 @@ public class Entrenar extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        gs = (GlobalState) getActivity().getApplicationContext();
+        gs.setEntrenar(this);
 
         request = Volley.newRequestQueue(getContext());
     }
@@ -61,118 +62,27 @@ public class Entrenar extends Fragment {
 
         initView(v);
 
-        listarMusculos();
         listarEjercicios();
 
         return v;
     }
 
     private void initView(View v) {
-        layout_detalles = v.findViewById(R.id.layout_detalles);
-        layout_entreno = v.findViewById(R.id.layout_entreno);
-        layout_entreno.setVisibility(View.GONE);
 
-        tvHoras = v.findViewById(R.id.tvHoras);
-        tvMinutos = v.findViewById(R.id.tvMinutos);
-        tvSegundos = v.findViewById(R.id.tvSegundos);
+        viewPager = v.findViewById(R.id.container);
+        septupViewPager(viewPager);
 
-        btnIniEjercicio = v.findViewById(R.id.btnIniEjercicio);
-        btnIniEjercicio.setEnabled(false);
-        btnIniEjercicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarEjercicio();
-            }
-        });
-
-        btnFinEjercicio = v.findViewById(R.id.btnFinEjercicio);
-        btnFinEjercicio.setVisibility(View.GONE);
-        btnFinEjercicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finalizarEjercicio();
-            }
-        });
-
-        btnFinRutina = v.findViewById(R.id.btnFinRutina);
-        btnFinRutina.setEnabled(false);
-        btnFinRutina.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finalizarRutina();
-            }
-        });
-
-        btnDetalles = v.findViewById(R.id.btnDetalles);
-        btnDetalles.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layout_detalles.setVisibility(View.VISIBLE);
-                layout_entreno.setVisibility(View.GONE);
-            }
-        });
-
-        btnEntreno = v.findViewById(R.id.btnEntreno);
-        btnEntreno.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layout_detalles.setVisibility(View.GONE);
-                layout_entreno.setVisibility(View.VISIBLE);
-            }
-        });
-
-        ivMusculos = v.findViewById(R.id.ivMusculos);
-
-        rvMusculos = v.findViewById(R.id.rvMusculos);
-        rvMusculos.setNestedScrollingEnabled(false);
+        TabLayout tabLayout = v.findViewById(R.id.tab_inicio);
+        tabLayout.setupWithViewPager(viewPager);
 
         rvEjercicios = v.findViewById(R.id.rvEjercicios);
-        rvEjercicios.setItemAnimator(new DefaultItemAnimator());
     }
 
-    private void iniciarEjercicio(){
-
-        btnIniEjercicio.setVisibility(View.GONE);
-        btnFinEjercicio.setVisibility(View.VISIBLE);
-
-        adapterEjercicios.setEntrenando(true);
-
-        if(hiloEntrenoEjercicio == null){
-            hiloEntrenoEjercicio = new HiloEntrenoEjercicio(Entrenar.this);
-            hiloEntrenoEjercicio.execute();
-        }
-        else{ hiloEntrenoEjercicio.initTiempoEjercicio(); }
-    }
-
-    private void finalizarEjercicio(){
-
-        hiloEntrenoEjercicio.finalizarEjercicio();
-        agregarEjercicioRealizado();
-
-        adapterEjercicios.finalizarEjercicio();
-
-        btnIniEjercicio.setVisibility(View.VISIBLE);
-        btnIniEjercicio.setEnabled(false);
-
-        btnFinEjercicio.setVisibility(View.GONE);
-        btnFinRutina.setEnabled(true);
-    }
-
-    private void finalizarRutina(){
-
-        hiloEntrenoEjercicio.onCancelled();
-    }
-
-    private void listarMusculos(){
-        listaMusculos = new ArrayList<>();
-
-        listaMusculos.add("Biceps");
-        listaMusculos.add("Pectorales");
-        listaMusculos.add("Triceps");
-
-        AdapterMusculos adapterMusculos = new AdapterMusculos(getContext(), listaMusculos);
-        rvMusculos.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        rvMusculos.setAdapter(adapterMusculos);
+    private void septupViewPager(ViewPager viewPager) {
+        PagerAdapter adapter = new PagerAdapter(getFragmentManager());
+        adapter.addFragment(detalles, tab1);
+        adapter.addFragment(iniciar, tab2);
+        viewPager.setAdapter(adapter);
     }
 
     private void listarEjercicios(){
@@ -201,9 +111,33 @@ public class Entrenar extends Fragment {
                 "60 Seg",
                 "Agarrar la barra..."));
 
-        adapterEjercicios = new AdapterEjercicios(this, getContext(), ejercicios);
+        adapterEjercicios = new AdapterEjercicios(this, iniciar, getContext(), ejercicios);
         rvEjercicios.setLayoutManager(new GridLayoutManager(getContext(), 1));
         rvEjercicios.setAdapter(adapterEjercicios);
+    }
+
+    public void iniciarEjercicio(){
+        adapterEjercicios.setEntrenando(true);
+
+        if(hiloEntrenoEjercicio == null){
+            hiloEntrenoEjercicio = new HiloEntrenoEjercicio(this, iniciar);
+            hiloEntrenoEjercicio.execute();
+        }
+        else{ hiloEntrenoEjercicio.initTiempoEjercicio(); }
+    }
+
+    public void finalizarEjercicio(){
+
+        hiloEntrenoEjercicio.finalizarEjercicio();
+        agregarEjercicioRealizado();
+
+        adapterEjercicios.finalizarEjercicio();
+
+    }
+
+    public void finalizarRutina(){
+
+        hiloEntrenoEjercicio.onCancelled();
     }
 
     private void agregarEjercicioRealizado() {
@@ -214,13 +148,6 @@ public class Entrenar extends Fragment {
         int fin = hiloEntrenoEjercicio.getFinEjercicio();
 
         ejerciciosRealizados.add(new ListaEjerciciosRealizados(ejercicios.get(indice).getId(), tiempo, inicio, fin));
-    }
-
-    public void actualizarTiempoTotal(String horas, String minutos, String segundos) {
-
-        tvHoras.setText(horas);
-        tvMinutos.setText(minutos);
-        tvSegundos.setText(segundos);
     }
 
     public void actualizarTiempoEjercicio(String horas, String minutos, String segundos) {

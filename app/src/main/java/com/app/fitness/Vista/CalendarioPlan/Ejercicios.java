@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjercicios;
+import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjerciciosPersona;
 import com.app.fitness.R;
 import com.app.fitness.Vista.Entreno.AdapterEjercicios;
 
@@ -21,7 +22,7 @@ public class Ejercicios extends Fragment {
     private RecyclerView rvEjercicios;
 
     private AdapterEjercicios adapterEjercicios;
-    private ArrayList<ListaEjercicios> ejercicios;
+    private ArrayList<ListaEjerciciosPersona> ejercicios = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,11 +52,11 @@ public class Ejercicios extends Fragment {
         }
     }
 
-    public ArrayList<ListaEjercicios> getEjercicios() {
+    public ArrayList<ListaEjerciciosPersona> getEjercicios() {
         return ejercicios;
     }
 
-    public void setEjercicios(ArrayList<ListaEjercicios> ejercicios) {
+    public void setEjercicios(ArrayList<ListaEjerciciosPersona> ejercicios) {
         this.ejercicios = ejercicios;
     }
 }

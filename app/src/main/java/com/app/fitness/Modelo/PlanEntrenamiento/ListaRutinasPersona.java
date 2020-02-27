@@ -2,30 +2,28 @@ package com.app.fitness.Modelo.PlanEntrenamiento;
 
 import java.util.ArrayList;
 
-public class ListaRutinas {
+public class ListaRutinasPersona {
 
     private int id;
     private String nombre;
     private String orientacion;
-    private int dia;
-    private String duracion;
-    private ArrayList<ListaEjercicios> ejercicios;
+    private int orden;
+    private int idPlanEntrenamiento;
+    private ArrayList<ListaEjerciciosPersona> ejercicios;
 
-
-    public ListaRutinas(int id, String nombre, String orientacion, int dia, ArrayList<ListaEjercicios> ejercicios) {
+    public ListaRutinasPersona(int id, String nombre, String orientacion, int orden, int idPlanEntrenamiento) {
         this.id = id;
         this.nombre = nombre;
         this.orientacion = orientacion;
-        this.dia = dia;
-        this.ejercicios = ejercicios;
+        this.orden = orden;
+        this.idPlanEntrenamiento = idPlanEntrenamiento;
     }
 
-    public ListaRutinas(int id, String nombre, String orientacion, int dia, String duracion, ArrayList<ListaEjercicios> ejercicios) {
+    public ListaRutinasPersona(int id, String nombre, String orientacion, int orden, ArrayList<ListaEjerciciosPersona> ejercicios) {
         this.id = id;
         this.nombre = nombre;
         this.orientacion = orientacion;
-        this.dia = dia;
-        this.duracion = duracion;
+        this.orden = orden;
         this.ejercicios = ejercicios;
     }
 
@@ -53,28 +51,19 @@ public class ListaRutinas {
         this.orientacion = orientacion;
     }
 
-    public int getDia() {
-        return dia;
+    public int getOrden() {
+        return orden;
     }
 
-    public void setDia(int dia) {
-        this.dia = dia;
+    public void setOrden(int orden) {
+        this.orden = orden;
     }
 
-    public String getDuracion() {
-        return duracion;
-    }
-
-    public void setDuracion(String duracion) {
-        this.duracion = duracion;
-    }
-
-    public ArrayList<ListaEjercicios> getEjercicios() {
+    public ArrayList<ListaEjerciciosPersona> getEjercicios() {
         return ejercicios;
     }
 
-    public void setEjercicios(ArrayList<ListaEjercicios> ejercicios) {
+    public void setEjercicios(ArrayList<ListaEjerciciosPersona> ejercicios) {
         this.ejercicios = ejercicios;
     }
-
 }

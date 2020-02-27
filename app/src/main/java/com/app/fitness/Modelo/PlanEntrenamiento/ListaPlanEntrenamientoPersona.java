@@ -1,10 +1,8 @@
 package com.app.fitness.Modelo.PlanEntrenamiento;
 
-import com.app.fitness.Modelo.PlanEntrenamiento.ListaRutinas;
-
 import java.util.ArrayList;
 
-public class ListaPlanRutinas {
+public class ListaPlanEntrenamientoPersona {
 
     private int id;
     private String nombre;
@@ -12,13 +10,21 @@ public class ListaPlanRutinas {
     private int dias;
     private ArrayList<ListaRutinasPersona> rutinas;
 
-    public ListaPlanRutinas(int id, String nombre, String descripcion, int dias, ArrayList<ListaRutinasPersona> rutinas) {
+    public ListaPlanEntrenamientoPersona(int id, String nombre, String descripcion, int dias) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.dias = dias;
+    }
+
+    public ListaPlanEntrenamientoPersona(int id, String nombre, String descripcion, int dias, ArrayList<ListaRutinasPersona> rutinas) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.dias = dias;
         this.rutinas = rutinas;
     }
+
 
 
     public int getId() {

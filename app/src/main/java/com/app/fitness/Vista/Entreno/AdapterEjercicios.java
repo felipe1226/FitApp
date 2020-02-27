@@ -14,7 +14,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjercicios;
+import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjerciciosPersona;
+import com.app.fitness.R;
 
 import java.util.ArrayList;
 
@@ -25,14 +26,14 @@ public class AdapterEjercicios extends RecyclerView.Adapter<AdapterEjercicios.My
     private Entrenar entrenar;
     private Iniciar iniciar;
     private Context context;
-    private ArrayList<ListaEjercicios> ejercicios;
+    private ArrayList<ListaEjerciciosPersona> ejercicios;
 
     int indice = -1;
     boolean entrenando;
 
     int indiceAnimacion = 0;
 
-    public AdapterEjercicios(Entrenar entrenar, Context context, ArrayList<ListaEjercicios> ejercicios) {
+    public AdapterEjercicios(Entrenar entrenar, Context context, ArrayList<ListaEjerciciosPersona> ejercicios) {
         this.entrenar = entrenar;
         this.context = context;
         this.ejercicios = ejercicios;
@@ -40,7 +41,7 @@ public class AdapterEjercicios extends RecyclerView.Adapter<AdapterEjercicios.My
         this.entrenando = false;
     }
 
-    public AdapterEjercicios(Entrenar entrenar, Iniciar iniciar, Context context, ArrayList<ListaEjercicios> ejercicios) {
+    public AdapterEjercicios(Entrenar entrenar, Iniciar iniciar, Context context, ArrayList<ListaEjerciciosPersona> ejercicios) {
         this.entrenar = entrenar;
         this.iniciar = iniciar;
         this.context = context;
@@ -59,7 +60,7 @@ public class AdapterEjercicios extends RecyclerView.Adapter<AdapterEjercicios.My
         notifyItemChanged(indice);
     }
 
-    public void actualizar(ArrayList<ListaEjercicios> ejercicios){
+    public void actualizar(ArrayList<ListaEjerciciosPersona> ejercicios){
         this.ejercicios = ejercicios;
         notifyDataSetChanged();
     }
@@ -82,7 +83,7 @@ public class AdapterEjercicios extends RecyclerView.Adapter<AdapterEjercicios.My
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(layout.item_ejercicio_inicio, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.item_ejercicio_inicio, parent, false);
         final AdapterEjercicios.MyViewHolder holder = new AdapterEjercicios.MyViewHolder(v);
 
         if(indiceAnimacion < ejercicios.size()){ animacion(holder.itemView); }
@@ -137,7 +138,7 @@ public class AdapterEjercicios extends RecyclerView.Adapter<AdapterEjercicios.My
             holder.ibShow.setImageResource(drawable.ic_expand);
         }
 
-        holder.tvEjercicio.setText(ejercicios.get(position).getEjercicio());
+        holder.tvEjercicio.setText(ejercicios.get(position).getNombre());
         holder.tvResumen.setText(ejercicios.get(position).getResumen());
 
         if(entrenar != null){

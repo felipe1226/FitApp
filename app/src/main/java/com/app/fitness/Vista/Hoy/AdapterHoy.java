@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.fitness.Modelo.PlanEntrenamiento.ListaPlanEntrenamientoPersona;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaPlanRutinas;
 import com.app.fitness.R;
 import com.app.fitness.Vista.CalendarioPlan.CalendarioPlanRutina;
@@ -20,11 +21,11 @@ import java.util.ArrayList;
 public class AdapterHoy extends RecyclerView.Adapter<AdapterHoy.MyViewHolder> {
 
     Context context;
-    ArrayList<ListaPlanRutinas> planRutina;
+    ArrayList<ListaPlanEntrenamientoPersona> planRutina;
 
     int indiceAnimacion = 0;
 
-    public AdapterHoy(Context context, ArrayList<ListaPlanRutinas> planRutina) {
+    public AdapterHoy(Context context, ArrayList<ListaPlanEntrenamientoPersona> planRutina) {
         this.context = context;
         this.planRutina = planRutina;
     }

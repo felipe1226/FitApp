@@ -144,15 +144,15 @@ public class InformacionContacto extends AppCompatActivity {
         tipo.add("Cedula de ciudadania");
         tipo.add("Tarjeta de identidad");
 
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, tipo);
+        /*ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, tipo);
 
-        spTipo.setAdapter(adapter);
+        spTipo.setAdapter(adapter);*/
     }
 
     private void cargarLocalidades(){
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, localidades);
-        etLocalidad.setAdapter(adapter);
+        /*ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, localidades);
+        etLocalidad.setAdapter(adapter);*/
     }
 
     private void listarLocalidades() {

@@ -13,10 +13,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.app.fitness.R;
+import com.app.fitness.Vista.HistoricoPeso.HistoricoPeso;
 import com.app.fitness.Vista.PagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class Perfil extends Fragment {
+
+    TabLayout tabPerfil;
 
     private ViewPager viewPager;
 
@@ -25,6 +28,7 @@ public class Perfil extends Fragment {
 
     public Informe informe = new Informe();
     public ResumenPeriodo resumenPeriodo = new ResumenPeriodo();
+    public HistoricoPeso historicoPeso = new HistoricoPeso();
 
 
     @Override
@@ -43,6 +47,8 @@ public class Perfil extends Fragment {
         ivFoto = v.findViewById(R.id.ivFoto);
         ibMenu = v.findViewById(R.id.ibMenu);
 
+        tabPerfil = v.findViewById(R.id.tab_perfil);
+
         viewPager = v.findViewById(R.id.container);
         septupViewPager(viewPager);
 
@@ -55,6 +61,7 @@ public class Perfil extends Fragment {
         PagerAdapter adapter = new PagerAdapter(getFragmentManager());
         adapter.addFragment(informe, "Informe");
         adapter.addFragment(resumenPeriodo, "Resumen periodo");
+        adapter.addFragment(historicoPeso, getString(R.string.text_historico_pesos));
         viewPager.setAdapter(adapter);
     }
 

@@ -7,12 +7,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.fitness.Modelo.Calendario.Meses;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjercicios;
+import com.app.fitness.Modelo.PlanEntrenamiento.ListaPlanEntrenamientoPersona;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaPlanRutinas;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaRutinas;
 import com.app.fitness.R;
@@ -31,7 +33,7 @@ public class Calendario extends Fragment {
 
     private RecyclerView rvCalendario;
 
-    private ArrayList<ListaPlanRutinas> planRutinas;
+    private ArrayList<ListaPlanEntrenamientoPersona> planesEntrenamiento;
 
     public int id;
 
@@ -40,10 +42,10 @@ public class Calendario extends Fragment {
     String mes;
     int diasMes;
 
-    public Calendario(int id, CalendarioPlanRutina calendarioPlanRutina, ArrayList<ListaPlanRutinas> planRutinas) {
+    public Calendario(int id, CalendarioPlanRutina calendarioPlanRutina, ArrayList<ListaPlanEntrenamientoPersona> planesEntrenamiento) {
         this.id = id;
         this.calendarioPlanRutina = calendarioPlanRutina;
-        this.planRutinas = planRutinas;
+        this.planesEntrenamiento = planesEntrenamiento;
     }
 
     @Override
@@ -71,13 +73,18 @@ public class Calendario extends Fragment {
 
     public void generarCalendario() {
 
-        for (int i=0;i<planRutinas.size();i++){
-            if(planRutinas.get(i).getId() == id){
-                adapterCalendarioPlan = new AdapterCalendarioPlan(calendarioPlanRutina, this, planRutinas.get(i).getRutinas(), diaActual, diaIncial, mes, diasMes);
-                rvCalendario.setLayoutManager(new GridLayoutManager(getContext(), 7));
-                rvCalendario.setAdapter(adapterCalendarioPlan);
-                break;
+        try{
+            for (int i=0;i<planesEntrenamiento.size();i++){
+                if(planesEntrenamiento.get(i).getId() == id){
+                    adapterCalendarioPlan = new AdapterCalendarioPlan(calendarioPlanRutina, this, planesEntrenamiento.get(i).getRutinas(), diaActual, diaIncial, mes, diasMes);
+                    rvCalendario.setLayoutManager(new GridLayoutManager(getContext(), 7));
+                    rvCalendario.setAdapter(adapterCalendarioPlan);
+                    break;
+                }
             }
+        }
+        catch(Exception e){
+            Log.e("Error", "Error: " + Log.ERROR);
         }
     }
 

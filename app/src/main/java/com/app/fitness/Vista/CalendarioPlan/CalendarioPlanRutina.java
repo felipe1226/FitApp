@@ -9,16 +9,22 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.app.fitness.GlobalState;
+import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjerciciosPersona;
+import com.app.fitness.Modelo.PlanEntrenamiento.ListaPlanEntrenamientoPersona;
+import com.app.fitness.Modelo.PlanEntrenamiento.ListaRutinasPersona;
 import com.app.fitness.R;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjercicios;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaPlanRutinas;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaRutinas;
-import com.app.fitness.Vista.PagerAdapter;
+import com.app.fitness.Vista.PagerAdapterCalendario;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
 public class CalendarioPlanRutina extends AppCompatActivity {
+
+    GlobalState gs;
 
     private ViewPager viewPagerMeses;
     private ViewPager viewPagerRutina;
@@ -40,9 +46,9 @@ public class CalendarioPlanRutina extends AppCompatActivity {
     public Ejercicios ejerciciosCalendario;
     public ResumenRutina resumenRutina;
 
-    private ArrayList<ListaEjercicios> ejercicios;
-    private ArrayList<ListaRutinas> rutinas;
-    private ArrayList<ListaPlanRutinas> planRutinas;
+    private ArrayList<ListaEjerciciosPersona> ejercicios;
+    private ArrayList<ListaRutinasPersona> rutinas;
+    private ArrayList<ListaPlanEntrenamientoPersona> planesEntrenamiento;
 
     private TextView tvRutina, tvMsgSeleccionaRutina;
 
@@ -51,19 +57,23 @@ public class CalendarioPlanRutina extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendario_plan_rutina);
 
+        gs = (GlobalState) getApplication();
+
         int id = getIntent().getExtras().getInt("id");
 
         initView();
 
-        generarEjercicios();
-        generarRutinas();
-        generarPlanesRutinas();
+        getPlanesEntrenamiento();
+        getRutinas();
+        getEjercicios();
 
-        calendario1 = new Calendario(id, this, planRutinas);
-        calendario2 = new Calendario(id, this, planRutinas);
+        calendario1 = new Calendario(id, this, planesEntrenamiento);
 
         ejerciciosCalendario = new Ejercicios();
+        ejerciciosCalendario.onStart();
+
         resumenRutina = new ResumenRutina();
+        ejerciciosCalendario.onStart();
 
         septupViewPager(viewPagerMeses, viewPagerRutina);
         tabMeses.setupWithViewPager(viewPagerMeses);
@@ -89,140 +99,36 @@ public class CalendarioPlanRutina extends AppCompatActivity {
     }
 
     private void septupViewPager(ViewPager viewPagerMeses, ViewPager viewPagerRutina) {
-        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
+        PagerAdapterCalendario adapter = new PagerAdapterCalendario(getSupportFragmentManager());
         adapter.addFragment(calendario1, "Octubre");
-        adapter.addFragment(calendario2, "Noviembre");
+        //adapter.addFragment(calendario2, "Noviembre");
         viewPagerMeses.setAdapter(adapter);
 
-        adapter = new PagerAdapter(getSupportFragmentManager());
+        adapter = new PagerAdapterCalendario(getSupportFragmentManager());
         adapter.addFragment(resumenRutina, tabRutina1);
         adapter.addFragment(ejerciciosCalendario, tabRutina2);
         viewPagerRutina.setAdapter(adapter);
     }
 
-    private void generarEjercicios(){
-        ejercicios = new ArrayList<>();
+    private void getPlanesEntrenamiento(){
 
-        ejercicios.add(new ListaEjercicios(1,
-                "Press pecho",
-                4,
-                10,
-                "20 Kg",
-                "30 Seg",
-                "Agarrar la barra..."));
-
-        ejercicios.add(new ListaEjercicios(2,
-                "Press militar",
-                4,
-                8,
-                "15 Kg",
-                "45 Seg",
-                "Agarrar la barra..."));
-
-        ejercicios.add(new ListaEjercicios(3,
-                "Banco plano",
-                4,
-                10,
-                "25 Kg",
-                "60 Seg",
-                "Agarrar la barra..."));
+        planesEntrenamiento = new ArrayList<>();
+        planesEntrenamiento = gs.getListaPlanEntrenamientoPersona();
     }
 
-    private void generarRutinas(){
+    private void getRutinas(){
+
         rutinas = new ArrayList<>();
-
-        ArrayList<ListaEjercicios> listaEjercicios = new ArrayList<>();
-
-        listaEjercicios.add(ejercicios.get(0));
-        listaEjercicios.add(ejercicios.get(1));
-
-        rutinas.add(new ListaRutinas(1,
-                "Pecho resistencia",
-                "Metabolica",
-                2,
-                "70 min",
-                listaEjercicios));
-
-        listaEjercicios = new ArrayList<>();
-
-        listaEjercicios.add(ejercicios.get(0));
-        listaEjercicios.add(ejercicios.get(2));
-
-        rutinas.add(new ListaRutinas(2,
-                "Pierna intensivo",
-                "Metabolica",
-                3,
-                "60 min",
-                listaEjercicios));
-
-        listaEjercicios = new ArrayList<>();
-
-        listaEjercicios.add(ejercicios.get(1));
-        listaEjercicios.add(ejercicios.get(2));
-
-        rutinas.add(new ListaRutinas(3,
-                "Espalda bombeo",
-                "Metabolica",
-                5,
-                "50 min",
-                listaEjercicios));
-
-        listaEjercicios = new ArrayList<>();
-
-        listaEjercicios.add(ejercicios.get(1));
-        listaEjercicios.add(ejercicios.get(2));
-
-        rutinas.add(new ListaRutinas(4,
-                "Espalda bombeo",
-                "Metabolica",
-                30,
-                "50 min",
-                listaEjercicios));
-
-        listaEjercicios = new ArrayList<>();
-
-        listaEjercicios.add(ejercicios.get(1));
-        listaEjercicios.add(ejercicios.get(2));
-
-        rutinas.add(new ListaRutinas(5,
-                "Espalda bombeo",
-                "Metabolica",
-                2,
-                "50 min",
-                listaEjercicios));
+        rutinas = gs.getListaRutinasPersona();
     }
 
-    private void generarPlanesRutinas(){
-        planRutinas = new ArrayList<>();
+    private void getEjercicios(){
 
-        ArrayList<ListaRutinas> listaRutinas = new ArrayList<>();
-
-        listaRutinas.add(rutinas.get(0));
-        listaRutinas.add(rutinas.get(1));
-        listaRutinas.add(rutinas.get(2));
-        listaRutinas.add(rutinas.get(3));
-        listaRutinas.add(rutinas.get(4));
-
-        planRutinas.add(new ListaPlanRutinas(1,
-                "Reduccion de grasa",
-                "Grasa localizada",
-                10,
-                listaRutinas));
-
-
-        listaRutinas = new ArrayList<>();
-
-        listaRutinas.add(rutinas.get(0));
-        listaRutinas.add(rutinas.get(1));
-
-        planRutinas.add(new ListaPlanRutinas(2,
-                "Aumento de masa muscular",
-                "Mejora de fuerza",
-                8,
-                listaRutinas));
+        ejercicios = new ArrayList<>();
+        ejercicios = gs.getListaEjerciciosPersona();
     }
 
-    public void verEjercicios(ArrayList<ListaEjercicios> ejercicios, String dia, int idRutina, String rutina, int estado){
+    public void verEjercicios(ArrayList<ListaEjerciciosPersona> ejercicios, String dia, int idRutina, String rutina, int estado){
 
         tvRutina.setText(dia + "- " + rutina);
 
@@ -236,12 +142,11 @@ public class CalendarioPlanRutina extends AppCompatActivity {
             case 2: tvRutina.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.item_calendario_actual));
                     break;
         }
+        ejerciciosCalendario.setEjercicios(ejercicios);
+        ejerciciosCalendario.verEjercicios();
 
         resumenRutina.actualizarResumen(idRutina, estado);
         layout_resumen.setVisibility(View.VISIBLE);
-
-        ejerciciosCalendario.setEjercicios(ejercicios);
-        ejerciciosCalendario.verEjercicios();
 
         tvRutina.setVisibility(View.VISIBLE);
 

@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.app.fitness.R;
 import com.app.fitness.Vista.Entreno.Entrenar;
+import com.app.fitness.Vista.Entreno.PruebaConexion;
 import com.app.fitness.Vista.Hoy.Hoy;
 import com.app.fitness.Vista.Perfil.Perfil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -20,6 +21,7 @@ public class Navigation extends AppCompatActivity {
     Hoy fragmentHoy = new Hoy();
     Entrenar fragmentEntrenar = new Entrenar();
     Perfil fragmentPerfil= new Perfil();
+    PruebaConexion pruebaConexion= new PruebaConexion();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class Navigation extends AppCompatActivity {
                     tag = "Entreno";
                     break;
                 case R.id.navigation_nutricion:
+                    fragment = pruebaConexion;
                     tag = "Nutricion";
                     break;
                 case R.id.navigation_perfil:
@@ -71,9 +74,9 @@ public class Navigation extends AppCompatActivity {
     }
 
     private void replaceFragment(Fragment fragment, String tag){
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+
         androidx.fragment.app.Fragment currentFragment = fm.findFragmentById(R.id.fragment_container);
         if (fragment.isAdded()) {
             transaction

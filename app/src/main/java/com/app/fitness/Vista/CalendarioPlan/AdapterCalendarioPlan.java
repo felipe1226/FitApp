@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.fitness.Modelo.PlanEntrenamiento.ListaRutinasPersona;
 import com.app.fitness.R;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaRutinas;
 
@@ -23,7 +24,7 @@ public class AdapterCalendarioPlan extends RecyclerView.Adapter<AdapterCalendari
     CalendarioPlanRutina calendarioPlanRutina;
     Calendario calendario;
     Context context;
-    ArrayList<ListaRutinas> rutinas;
+    ArrayList<ListaRutinasPersona> rutinas;
 
     private int diaActual;
     private int diaInicial;
@@ -34,7 +35,7 @@ public class AdapterCalendarioPlan extends RecyclerView.Adapter<AdapterCalendari
     int auxPosicion;
     int auxDia;
 
-    public AdapterCalendarioPlan(CalendarioPlanRutina calendarioPlanRutina, Calendario calendario, ArrayList<ListaRutinas> rutinas, int diaActual, int diaInicial, String mes, int diasMes) {
+    public AdapterCalendarioPlan(CalendarioPlanRutina calendarioPlanRutina, Calendario calendario, ArrayList<ListaRutinasPersona> rutinas, int diaActual, int diaInicial, String mes, int diasMes) {
 
         this.calendarioPlanRutina = calendarioPlanRutina;
         this.calendario = calendario;
@@ -79,7 +80,7 @@ public class AdapterCalendarioPlan extends RecyclerView.Adapter<AdapterCalendari
             holder.tvDia.setText(String.valueOf(auxDia));
 
             if(auxPosicion < rutinas.size()){
-                if(rutinas.get(auxPosicion).getDia() == auxDia ){
+                if(rutinas.get(auxPosicion).getOrden() == auxDia ){
                     holder.tvRutina.setText(rutinas.get(auxPosicion).getNombre());
                     if(auxDia < diaActual){
                         holder.item_calendario.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.item_calendario_done));
@@ -90,7 +91,7 @@ public class AdapterCalendarioPlan extends RecyclerView.Adapter<AdapterCalendari
                     else{
                         if (auxDia == diaActual) {
                             estado = 2;
-                            holder.item_calendario.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.item_calendario_actual));
+                            holder.item_calendario.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.item_calendario_done));
                         }
                         else {
                             estado = 0;
@@ -123,6 +124,9 @@ public class AdapterCalendarioPlan extends RecyclerView.Adapter<AdapterCalendari
                         }
                     });
                 }
+            }
+            if (auxDia == diaActual) {
+                holder.item_calendario.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.item_calendario_actual));
             }
             auxDia ++;
         }

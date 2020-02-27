@@ -1,10 +1,10 @@
 package com.app.fitness.Vista.CalendarioPlan;
 
-
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,11 +67,13 @@ public class ResumenRutina extends Fragment {
 
     private void entrenar(){
 
-        Intent intent = new Intent(getContext(), Entrenar.class);
-        intent.putExtra("rutina", idRutina);
+        Fragment fragment = new Entrenar();
 
-        startActivity(intent);
+        Bundle bundle = new Bundle();
+        bundle.putInt("idRutina", idRutina);
+        fragment.setArguments(bundle);
 
+        replaceFragment(fragment, "Entreno");
     }
 
     public void actualizarResumen(int idRutina, int estado){
@@ -83,7 +85,7 @@ public class ResumenRutina extends Fragment {
                     btnEntrenar.setVisibility(View.GONE);
                     break;
 
-            case 1: layout_acciones.setVisibility(View.GONE);
+            case 1: //layout_acciones.setVisibility(View.GONE);
                     break;
 
             case 2: layout_acciones.setVisibility(View.VISIBLE);
@@ -91,5 +93,22 @@ public class ResumenRutina extends Fragment {
                     btnEntrenar.setVisibility(View.VISIBLE);
                     break;
         }
+    }
+
+    private void replaceFragment(Fragment fragment, String tag){
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+
+        androidx.fragment.app.Fragment currentFragment = fm.findFragmentById(R.id.fragment_container);
+        if (fragment.isAdded()) {
+            transaction
+                    .hide(currentFragment)
+                    .show(fragment);
+        } else {
+            transaction
+                    .hide(currentFragment)
+                    .add(R.id.fragment_container, fragment, tag);
+        }
+        transaction.commit();
     }
 }

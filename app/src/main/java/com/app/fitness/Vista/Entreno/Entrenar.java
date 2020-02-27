@@ -15,6 +15,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.app.fitness.GlobalState;
 import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjercicios;
+import com.app.fitness.Modelo.PlanEntrenamiento.ListaEjerciciosPersona;
 import com.app.fitness.R;
 import com.app.fitness.Vista.PagerAdapter;
 import com.google.android.material.tabs.TabLayout;
@@ -39,7 +40,7 @@ public class Entrenar extends Fragment {
 
     public AdapterEjercicios adapterEjercicios;
 
-    private ArrayList<ListaEjercicios> ejercicios;
+    private ArrayList<ListaEjerciciosPersona> ejercicios;
     private ArrayList<ListaEjerciciosRealizados> ejerciciosRealizados = new ArrayList<>();
 
     RequestQueue request;
@@ -50,6 +51,11 @@ public class Entrenar extends Fragment {
 
         gs = (GlobalState) getActivity().getApplicationContext();
         gs.setEntrenar(this);
+
+        Bundle bundle = this.getArguments();
+        if(bundle != null){
+            int idRutina = bundle.getInt("idRutina", 0);
+        }
 
         request = Volley.newRequestQueue(getContext());
     }
@@ -86,30 +92,10 @@ public class Entrenar extends Fragment {
     }
 
     private void listarEjercicios(){
+
         ejercicios = new ArrayList<>();
-        ejercicios.add(new ListaEjercicios(1,
-                                        "Press pecho",
-                                        4,
-                                        10,
-                                        "20 Kg",
-                                        "30 Seg",
-                                        "Agarrar la barra..."));
 
-        ejercicios.add(new ListaEjercicios(2,
-                "Press militar",
-                4,
-                8,
-                "15 Kg",
-                "45 Seg",
-                "Agarrar la barra..."));
-
-        ejercicios.add(new ListaEjercicios(3,
-                "Banco plano",
-                4,
-                10,
-                "25 Kg",
-                "60 Seg",
-                "Agarrar la barra..."));
+        ejercicios = gs.getListaEjerciciosPersona();
 
         adapterEjercicios = new AdapterEjercicios(this, iniciar, getContext(), ejercicios);
         rvEjercicios.setLayoutManager(new GridLayoutManager(getContext(), 1));

@@ -7,14 +7,14 @@
     <string name="button_registro">Registrate con un correo electrónico</string>
     <string name="text_registro">!Registrate ahora!</string>
 
-    <string name="text_descripcion_login">Iniciar sesión con un correo electrónico</string>
-    <string name="text_correo">Correo electrónico</string>
-    <string name="text_password">Contraseña</string>
-    <string name="text_forgot_password">Olvidé mi contraseña</string>
+    <string name="text_descripcion_login">Login with an email</string>
+    <string name="text_correo">Email</string>
+    <string name="text_password">Password</string>
+    <string name="text_forgot_password">I forgot my password</string>
 
-    <string name="text_empieza">¡Empieza ahora!</string>
-    <string name="text_inicia_sesion">Inicia sesión</string>
-    <string name="text_iniciar_sesion">Iniciar sesión</string>
+    <string name="text_empieza">¡Start now!</string>
+    <string name="text_inicia_sesion">Log in</string>
+    <string name="text_iniciar_sesion">Log in</string>
 
     //REGISTRO USUARIO
     <string name="text_codigo_instructor">Código del instructor</string>
@@ -30,18 +30,18 @@
 
 
     //BOTTOM NAVIGATION
-    <string name="text_inicio">Inicio</string>
-    <string name="text_entrena">Entrena</string>
-    <string name="text_perfil">Perfil</string>
+    <string name="text_inicio">Home</string>
+    <string name="text_entrena">Train</string>
+    <string name="text_perfil">Profile</string>
 
     //INICIO
-    <string name="text_buscar">Buscar...</string>
-    <string name="text_detalles">Detalles</string>
-    <string name="text_entrenar">Entrenar</string>
+    <string name="text_buscar">Search...</string>
+    <string name="text_detalles">Details</string>
+    <string name="text_entrenar">Train</string>
 
     //INSTRUCTORES
     <string name="text_seguidores">Seguidores</string>
-    <string name="text_nivel">Nivel:</string>
+    <string name="text_nivel">Level:</string>
     <string name="text_duracion">Duración:</string>
     <string name="text_tiempo_diario">Tiempo diario:</string>
     <string name="text_requerimiento">Requerimiento:</string>
@@ -64,6 +64,11 @@
     <string name="text_crear_publicacion">Crear publicación</string>
     <string name="text_titulo">Título</string>
     <string name="title_activity_login">Login</string>
+
+    //HISTORICO PESOS
+        //TEXT
+    <string name="text_historico_pesos">Histórico pesos</string>
+        <string name="text_registro_medidas">Record of measurement</string>
 
     //TEXT
     <string name="text_informacion_contacto">Informacion de contacto</string>
@@ -137,5 +142,34 @@
     <string name="descripcion_tipos_entrenamientos">¿Que tipos de entrenamientos te interesan?</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="unknown_device">Dispositivo desconocido</string>
+    <string name="unknown_characteristic">Característica desconocida</string>
+    <string name="unknown_service">Servicio desconocido</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_scan">Escanear</string>
+    <string name="menu_stop">Detener</string>
+    <string name="refresh">Refrescar</string>
+    <string name="title_activity_device">DeviceActivity</string>
+    <string name="label_state">Estado:</string>
+    <string name="label_device_address">Dirección MAC:</string>
+    <string name="connection_state">Desconectado</string>
+    <string name="label_data">Datos:</string>
+    <string name="no_data">No hay datos</string>
+    <string name="menu_connect">Conectar</string>
+    <string name="menu_disconnect">Desconectar</string>
+    <string name="disconnected">Desconectado</string>
+    <string name="connected">Conectado</string>
+
+    <string name="selectDevice">Seleccione el dispositivo</string>
+    <string name="couldnotconnect">No se pudo conectar el dispositivo</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="bluetoothOff">El Bluetooth se encuentra apagado. Desea encenderlo?</string>
+    <string name="rpm">BPM</string>
+    <string name="about">About</string>
+    <string name="title_activity_about">About</string>
+    <string name="banner_ad_unit_id">ca-app-pub-7344227317954564/2556270733</string>
+    <string name="title_activity_menu_principal">MenuPrincipal</string>
 
 </resources>
